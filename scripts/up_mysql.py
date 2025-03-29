@@ -1,7 +1,7 @@
 import pandas as pd
 from scripts.conn_mysql import ConnMySQL
 
-
+# Objetivo: Criar uma base de dados e uma tabela no MySQL, e inserir os dados de um CSV na tabela criada.
 class UpToMySQL():
     def __init__(self):
         self.kaggle_path = 'data/from_kaggle/Mobiles Dataset (2025).csv'
@@ -15,7 +15,7 @@ class UpToMySQL():
         self.create_tb()
         self.insert_data_into_mysql()
 
-
+    # Extrai os dados do CSV e armazena em um DataFrame do Pandas
     def extract_data_from_csv(self):
         try:
             self.df = pd.read_csv(
@@ -26,7 +26,7 @@ class UpToMySQL():
             print(
                 f'Não foi possivel extrar os dados de {self.kaggle_path}:\n{e}')
 
-
+    # Cria a base de dados no MySQL
     def create_db(self):
         try:
             self.ms.cursor.execute(
@@ -35,7 +35,7 @@ class UpToMySQL():
         except Exception as e:
             print(f'Não foi possivel criar a base dados {self.db_name}:\n{e}')
 
-
+    # Cria a tabela no MySQL com os dados extraidos do CSV
     def create_tb(self):
         headers = self.df.columns.to_list()
         self.headers_qtd = len(headers)
@@ -59,7 +59,7 @@ class UpToMySQL():
         except Exception as e:
             print(f'\nNão foi Possivel criar a Tabela {self.tb_name}:\n{e}')
 
-
+    # Insere os dados do CSV na tabela criada no MySQL
     def insert_data_into_mysql(self):
         csv_data = [tuple(row) for i, row in self.df.iterrows()]
         s_values = ''
