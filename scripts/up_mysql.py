@@ -4,14 +4,17 @@ from scripts.conn_mysql import ConnMySQL
 
 class UpToMySQL():
     def __init__(self):
+        self.kaggle_path = 'data/from_kaggle/Mobiles Dataset (2025).csv'
+        self.headers_qtd = None
+        self.df = None
         self.ms = ConnMySQL()
         self.db_name = 'db_mobiles'
         self.tb_name = 'mobiles'
-        self.kaggle_path = 'data/from_kaggle/Mobiles Dataset (2025).csv'
-        self.df = None
         self.extract_data_from_csv()
         self.create_db()
         self.create_tb()
+        self.insert_data_into_mysql()
+
 
     def extract_data_from_csv(self):
         try:
@@ -23,6 +26,7 @@ class UpToMySQL():
             print(
                 f'Não foi possivel extrar os dados de {self.kaggle_path}:\n{e}')
 
+
     def create_db(self):
         try:
             self.ms.cursor.execute(
@@ -31,9 +35,12 @@ class UpToMySQL():
         except Exception as e:
             print(f'Não foi possivel criar a base dados {self.db_name}:\n{e}')
 
+
     def create_tb(self):
         headers = self.df.columns.to_list()
+        self.headers_qtd = len(headers)
         fields = ''
+
 
         for field in headers:
             fields += f'''{(field)
@@ -50,4 +57,25 @@ class UpToMySQL():
             tb_execute = f'CREATE TABLE {self.tb_name} ({fields})'
             self.ms.cursor.execute(tb_execute)
         except Exception as e:
-            print(f'Não foi Possivel criar a Tabela {self.tb_name}:\n{e}')
+            print(f'\nNão foi Possivel criar a Tabela {self.tb_name}:\n{e}')
+
+
+    def insert_data_into_mysql(self):
+        csv_data = [tuple(row) for i, row in self.df.iterrows()]
+        s_values = ''
+
+        for i in range(0, self.headers_qtd):
+            s_values += '%s,' 
+        s_values = s_values.rstrip(',')
+
+        try:
+            self.ms.cursor.executemany(f'INSERT INTO {self.tb_name} VALUES({s_values})', csv_data)
+            self.ms.connection.commit()
+
+            self.ms.cursor.execute(f'SELECT * FROM {self.tb_name} ORDER BY RAND() LIMIT 3')
+            mysql_data_inserted = [data for data in self.ms.cursor]
+            print(f'\nDados dos CSV foram inseridos na tabela com sucesso:')
+            for data in mysql_data_inserted:
+                print(f'{data}')
+        except Exception as e:
+            print(f'\nNão foi possivel inserir os dados na tabela:\n{e}')

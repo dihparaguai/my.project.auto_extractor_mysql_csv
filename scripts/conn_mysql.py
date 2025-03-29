@@ -6,12 +6,12 @@ import mysql.connector as mysql
 
 class ConnMySQL():
     def __init__(self):
-        self.__connection = self.__connect()
+        self.connection = self.__connect()
         self.cursor = self.__conn_cursor()
 
     def __connect(self):
         try:
-            connection = self.__connection = \
+            connection = self.connection = \
                 mysql.connect(
                     host=os.getenv('HOST'),
                     user=os.getenv('USER'),
@@ -23,15 +23,15 @@ class ConnMySQL():
             print(f"\nErro ao conectar ao MySQL:\n{e}")
             
     def __conn_cursor(self):
-        if self.__connection:
-            return self.__connection.cursor()
+        if self.connection:
+            return self.connection.cursor()
         else:
             print("\nNenhuma conexão ativa.")
 
     def close(self):
-        if self.__connection:
+        if self.connection:
             self.cursor.close()
-            self.__connection.close()
+            self.connection.close()
             print("\nConexão com o MySQL encerrada.")
         else:
             print("\nNenhuma conexão ativa para encerrar.")
