@@ -3,13 +3,13 @@ from scripts.conn_mysql import ConnMySQL
 
 # Objetivo: Criar uma base de dados e uma tabela no MySQL, e inserir os dados de um CSV na tabela criada.
 class UpToMySQL():
-    def __init__(self):
-        self.kaggle_path = 'data/from_kaggle/Mobiles Dataset (2025).csv'
+    def __init__(self, kaggle_file_name, db_name, tb_name):
+        self.ms = ConnMySQL()
+        self.kaggle_path = f'data/from_kaggle/{kaggle_file_name}'
+        self.db_name = db_name
+        self.tb_name = tb_name
         self.headers_qtd = None
         self.df = None
-        self.ms = ConnMySQL()
-        self.db_name = 'db_mobiles'
-        self.tb_name = 'mobiles'
         self.extract_data_from_csv()
         self.create_db()
         self.create_tb()

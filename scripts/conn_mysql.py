@@ -10,12 +10,16 @@ class ConnMySQL():
         self.cursor = self.__conn_cursor()
 
     def __connect(self):
+        host = os.getenv('HOST')
+        user = os.getenv('USER')
+        password = os.getenv('PASSWORD')
+        
         try:
             connection = self.connection = \
                 mysql.connect(
-                    host=os.getenv('HOST'),
-                    user=os.getenv('USER'),
-                    password=os.getenv('PASSWORD')
+                    host=host,
+                    user=user,
+                    password=password,
                 )
             print("\nConexão bem-sucedida ao MySQL.")
             return connection
