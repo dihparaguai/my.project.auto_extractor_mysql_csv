@@ -12,7 +12,7 @@ if __name__ == "__main__":
     my_sql_file_name = 'mobiles_dataset_2025.csv'
     db_name = 'db_mobiles'
     tb_name = 'mobiles'
-    columns = ['company_name', 'model_name', 'battery_capacity', 'ram', 'screen_size']
     split_column_name = 'model_name'
+    columns = ['company_name', 'battery_capacity', 'ram', 'screen_size', split_column_name]
     DownFromMySQL(my_sql_file_name, db_name, tb_name, columns, split_column_name)
 
