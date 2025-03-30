@@ -11,8 +11,8 @@ class DownFromMySQL():
         self.tb_name = 'mobiles'
         self.columns = ['company_name', 'model_name', 'battery_capacity', 'ram', 'screen_size']
         self.df = None
-        self.select_columns()
         self.extract_data_from_mysql()
+        self.standardize_column()
         self.ms.close()
 
     # Forma a string com os nomes das colunas a serem extraidas do MySQL e retorna a string formatada        
@@ -29,9 +29,13 @@ class DownFromMySQL():
     def extract_data_from_mysql(self):
         try:            
             self.ms.cursor.execute(f'USE {self.db_name}')
-            self.ms.cursor.execute(f'SELECT {self.format_columns()} FROM {self.tb_name}')
+            self.ms.cursor.execute(f'SELECT {self.format_columns()} FROM {self.tb_name} ORDER BY RAND() LIMIT 10')
 
             self.df = pd.DataFrame([data for data in self.ms.cursor], columns=self.columns)
-            print(f'\nAlguns dados Extraidos de {self.tb_name}:\n{self.df.sample(5)}')
+            print(f'\nAlguns dados Extraidos de {self.tb_name}:\n{self.df.sample(5).sort_index()}')
         except Exception as e:
             print(f'Não foi possivel extrar os dados de {self.tb_name}:\n{e}')
+        
+    def standardize_column(self):
+        self.df['battery_capacity'] = self.df['battery_capacity'].str.replace(',', '').replace(' ', '')
+        print(f'\nDados padronizados da coluna battery_capacity:\n{self.df["battery_capacity"].sample(5).sort_index()}')
