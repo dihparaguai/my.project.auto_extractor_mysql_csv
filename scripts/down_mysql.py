@@ -12,10 +12,11 @@ class DownFromMySQL():
         self.columns = columns
         self.split_column_name = split_column_name
         self.df = None
-        self.extract_data_from_mysql()
-        self.standardize_column()
-        self.split_column()
-        self.create_csv()
+        self.extract_data_from_mysql() # Extrai os dados do MySQL e armazena em um DataFrame do Pandas
+        self.standardize_column() # Padroniza os dados da coluna battery_capacity, removendo as vírgulas e espaços em branco
+        self.split_column() # Extrai os dados da coluna que contém o tamanho de armazenamento, e cria uma nova coluna 'storage_capacity' com os dados extraidos
+        self.consistency_check() # Aplica a consistência nos dados, removendo os dados nulos e duplicados
+        self.create_csv() # Cria o arquivo CSV com os dados extraidos do MySQL e padronizados
         self.ms.close()
 
     # Forma a string com os nomes das colunas a serem extraidas do MySQL e retorna a string formatada        
@@ -50,6 +51,14 @@ class DownFromMySQL():
         self.df['storage_capacity'] = self.df[col].str.extract(r'(\d+GB)$')
         self.df[col] = self.df[col].str.replace(r'(\d+GB)$', '', regex=True).str.strip()
         print(f'\nDados da coluna {col} extraidos para uma nova coluna storage_capacity:\n{self.df[[col, 'storage_capacity']].sample(5).sort_index()}')
+
+    # Aplica a consistência nos dados, removendo os dados nulos e duplicados
+    def consistency_check(self):
+        print(f'\nLinhas com dados nulos que serão removidas:\n{self.df[self.df.isnull().any(axis=1)]}')
+        self.df = self.df.dropna() # Remove a linha completa se houver algum dado nulo em alguma coluna
+        self.df = self.df.drop_duplicates()        
+        print(f'\nTodos os dados estão consistentes.')
+        return True        
 
     # Cria o arquivo CSV com os dados extraidos do MySQL e padronizados
     # O nome do arquivo é formado pelo nome do arquivo original + data e hora atual
