@@ -28,7 +28,7 @@ class DownFromMySQL():
 
         print(f'\nLista de colunas a serem extraidas da tabela no MySQL {self.tb_name}:\n{columns_selected}')
         return columns_selected            
-    
+
     # Seleciona as colunas a serem extraidas do MySQL e atribui o resultado a um DataFrame do Pandas
     def extract_data_from_mysql(self):
         try:            
@@ -44,7 +44,7 @@ class DownFromMySQL():
     def standardize_column(self):
         self.df['battery_capacity'] = self.df['battery_capacity'].str.replace(',', '').replace(' ', '')
         print(f'\nDados padronizados da coluna battery_capacity:\n{self.df["battery_capacity"].sample(5).sort_index()}')
-    
+
     # Extrai os dados da coluna que contém o tamanho de armazenamento, e cria uma nova coluna 'storage_capacity' com os dados extraidos   
     def split_column(self):
         col = self.split_column_name

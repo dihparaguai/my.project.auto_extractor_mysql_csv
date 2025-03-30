@@ -42,7 +42,6 @@ class UpToMySQL():
         self.headers_qtd = len(headers)
         fields = ''
 
-
         for field in headers:
             fields += f'''{(field)
                                 .lower()

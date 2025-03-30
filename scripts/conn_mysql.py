@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 import mysql.connector as mysql
 
-
 class ConnMySQL():
     def __init__(self):
         self.connection = self.__connect()
@@ -13,7 +12,7 @@ class ConnMySQL():
         host = os.getenv('HOST')
         user = os.getenv('USER')
         password = os.getenv('PASSWORD')
-        
+
         try:
             connection = self.connection = \
                 mysql.connect(
@@ -25,7 +24,7 @@ class ConnMySQL():
             return connection
         except mysql.Error as e:
             print(f"\nErro ao conectar ao MySQL:\n{e}")
-            
+
     def __conn_cursor(self):
         if self.connection:
             return self.connection.cursor()
