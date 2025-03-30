@@ -4,12 +4,12 @@ from scripts.conn_mysql import ConnMySQL
 
 # Objetivo: Extrair os dados do MySQL, transformar os dados e criar um CSV com os dados transformados.
 class DownFromMySQL():
-    def __init__(self):
+    def __init__(self, mysql_file_name, db_name, tb_name, columns):
         self.ms = ConnMySQL()
-        self.mysql_path = 'data/from_mysql/mobiles_dataset_2025.csv'
-        self.db_name = 'db_mobiles'
-        self.tb_name = 'mobiles'
-        self.columns = ['company_name', 'model_name', 'battery_capacity', 'ram', 'screen_size']
+        self.mysql_path = f'data/from_mysql/{mysql_file_name}'
+        self.db_name = db_name
+        self.tb_name = tb_name
+        self.columns = columns
         self.df = None
         self.extract_data_from_mysql()
         self.standardize_column()
