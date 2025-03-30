@@ -4,15 +4,17 @@ from scripts.conn_mysql import ConnMySQL
 
 # Objetivo: Extrair os dados do MySQL, transformar os dados e criar um CSV com os dados transformados.
 class DownFromMySQL():
-    def __init__(self, mysql_file_name, db_name, tb_name, columns):
+    def __init__(self, mysql_file_name, db_name, tb_name, columns, split_column_name):
         self.ms = ConnMySQL()
         self.mysql_path = f'data/from_mysql/{mysql_file_name}'
         self.db_name = db_name
         self.tb_name = tb_name
         self.columns = columns
+        self.split_column_name = split_column_name
         self.df = None
         self.extract_data_from_mysql()
         self.standardize_column()
+        self.split_column()
         self.create_csv()
         self.ms.close()
 
@@ -41,6 +43,13 @@ class DownFromMySQL():
     def standardize_column(self):
         self.df['battery_capacity'] = self.df['battery_capacity'].str.replace(',', '').replace(' ', '')
         print(f'\nDados padronizados da coluna battery_capacity:\n{self.df["battery_capacity"].sample(5).sort_index()}')
+    
+    # Extrai os dados da coluna que contém o tamanho de armazenamento, e cria uma nova coluna 'storage_capacity' com os dados extraidos   
+    def split_column(self):
+        col = self.split_column_name
+        self.df['storage_capacity'] = self.df[col].str.extract(r'(\d+GB)$')
+        self.df[col] = self.df[col].str.replace(r'(\d+GB)$', '', regex=True).str.strip()
+        print(f'\nDados da coluna {col} extraidos para uma nova coluna storage_capacity:\n{self.df[[col, 'storage_capacity']].sample(5).sort_index()}')
 
     # Cria o arquivo CSV com os dados extraidos do MySQL e padronizados
     # O nome do arquivo é formado pelo nome do arquivo original + data e hora atual
