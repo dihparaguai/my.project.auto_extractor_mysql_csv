@@ -14,6 +14,7 @@ class UpToMySQL():
         self.create_db()
         self.create_tb()
         self.insert_data_into_mysql()
+        self.ms.close()
 
     # Extrai os dados do CSV e armazena em um DataFrame do Pandas
     def extract_data_from_csv(self):
@@ -51,11 +52,12 @@ class UpToMySQL():
         fields = fields.rstrip(',')
 
         print(
-            f'\nLista de Colunas a Serem Criadas no MySQL na tabela {self.tb_name}:\n{fields}')
+            f'\nLista de colunas a serem criadas na tabela no MySQL {self.tb_name}:\n{fields}')
         try:
             self.ms.cursor.execute(f'DROP TABLE IF EXISTS {self.tb_name}')
             tb_execute = f'CREATE TABLE {self.tb_name} ({fields})'
             self.ms.cursor.execute(tb_execute)
+            print(f'\nTabela {self.tb_name} criada com sucesso!')
         except Exception as e:
             print(f'\nNão foi Possivel criar a Tabela {self.tb_name}:\n{e}')
 
