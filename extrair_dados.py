@@ -24,7 +24,7 @@ data = pd.read_csv(url)
 
 # Save the data to a local directory
 path = f'weather_week={date_ini}'
-os.mkdir(path)
+os.makedirs(path, exist_ok=True)
 data.to_csv(f'{path}/data_raw.csv')
 data[['datetime','tempmin', 'temp', 'tempmax']].to_csv(f'{path}/temperatures.csv')
 data[['datetime', 'description', 'icon']].to_csv(f'{path}/conditions.csv')
