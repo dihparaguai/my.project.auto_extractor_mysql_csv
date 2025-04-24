@@ -1,3 +1,13 @@
+### Airflow ###
+airflow.db
+airflow.cfg
+logs/
+__pycache__/
+*.pyc
+standalone_admin_password.txt
+webserver_config.py
+airflow-webserver.pid
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,venv,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv,dotenv
 
