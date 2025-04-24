@@ -2,7 +2,7 @@ import pandas as pd
 
 import os
 from dotenv import load_dotenv
-load_dotenv(override=True) # Used to 
+load_dotenv(override=True) # Used to load the environment variables from .env file
 
 from airflow.macros import ds_add # Used to add days in a Airflow date
 
@@ -13,7 +13,7 @@ def extrair_dados(data_interval_end, data_path): # 'data_interval_end' is the sc
     date_end = ds_add(data_interval_end, 7)
 
     city = 'SaoPaulo'
-    key_api = os.getenv('WEATHER_KEY')
+    key_api = os.getenv('WEATHER_KEY') # Get the API key from environment variable on .env file
 
     # Define the URL for the API request
     main_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
