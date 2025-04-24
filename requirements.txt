@@ -83,6 +83,7 @@ mdurl==0.1.2
 methodtools==0.4.7
 more-itertools==10.6.0
 multidict==6.1.0
+mysql-connector==2.2.9
 numpy==2.2.5
 opentelemetry-api==1.27.0
 opentelemetry-exporter-otlp==1.27.0
