@@ -1,3 +1,6 @@
+### Other project files ###
+etl_weather_data/
+
 ### Airflow ###
 airflow.db
 airflow.cfg
@@ -8,7 +11,6 @@ standalone_admin_password.txt
 webserver_config.py
 airflow-webserver.pid
 
-etl_mysql_csv/
 # Created by https://www.toptal.com/developers/gitignore/api/python,venv,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv,dotenv
 
