@@ -5,7 +5,7 @@ from airflow.operators.bash import BashOperator # Importing BashOperator to exec
 
 # Creating a DAG instance
 with DAG(
-    dag_id='prim_dag', # Unique identifier for the DAG
+    dag_id='_prim_dag', # Unique identifier for the DAG
     start_date=days_ago(1), # Setting the start date to one day ago
     schedule_interval='@daily', # Setting the schedule interval to daily at 00:00
 ) as dag:
