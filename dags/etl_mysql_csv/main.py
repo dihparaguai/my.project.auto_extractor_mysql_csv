@@ -1,5 +1,5 @@
-from scripts.up_mysql import UpToMySQL
-from scripts.down_mysql import DownFromMySQL
+from script.up_mysql import UpToMySQL
+from script.down_mysql import DownFromMySQL
 
 def subir_e_extrair_dados():
     if __name__ == "__main__":

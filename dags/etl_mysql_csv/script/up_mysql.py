@@ -1,5 +1,5 @@
 import pandas as pd
-from scripts.conn_mysql import ConnMySQL
+from script.conn_mysql import ConnMySQL
 
 # Objetivo: Criar uma base de dados e uma tabela no MySQL, e inserir os dados de um CSV na tabela criada.
 class UpToMySQL():

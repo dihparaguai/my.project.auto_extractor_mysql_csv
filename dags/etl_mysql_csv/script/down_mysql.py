@@ -1,6 +1,7 @@
 import pandas as pd
 import time
-from scripts.conn_mysql import ConnMySQL
+
+from script.conn_mysql import ConnMySQL
 
 # Objetivo: Extrair os dados do MySQL, transformar os dados e criar um CSV com os dados transformados.
 class DownFromMySQL():
